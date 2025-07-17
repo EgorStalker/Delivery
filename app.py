@@ -20,7 +20,49 @@ class Package(db.Model):
     name_package : Mapped[str] = mapped_column(db.String(128),nullable=False)
     departure_city: Mapped[str] = mapped_column(db.String(128),nullable=False)
     status_package : Mapped[str] = mapped_column(db.String(128),nullable=False)
-
+CITY_CODES = {
+    "Днепр": 1,
+    "Черкассы": 2,
+    "Одесса": 3,
+    "Киев": 4,
+    "Харьков": 5,
+    "Львов": 6,
+    "Запорожье": 7,
+    "Ивано-Франковск": 8,
+    "Полтава": 9,
+    "Тернополь": 10,
+    "Ужгород": 11,
+    "Чернигов": 12,
+    "Черновцы": 13,
+    "Винница": 14,
+    "Херсон": 15,
+    "Николаев": 16,
+    "Сумы": 17,
+    "Житомир": 18,
+    "Кривой Рог": 19,
+    "Мариуполь": 20,
+    "Луганск": 21,
+    "Донецк": 22,
+    "Краматорск": 23,
+    "Славянск": 24,
+    "Хмельницкий": 25,
+    "Луцк": 26,
+    "Ровно": 27,
+    "Бровары": 28,
+    "Белая Церковь": 29,
+    "Кременчуг": 30,
+    "Мелитополь": 31,
+    "Павлоград": 32,
+    "Бердянск": 33,
+    "Конотоп": 34,
+    "Умань": 35,
+    "Нежин": 36,
+    "Мукачево": 37,
+    "Каменское": 38,
+    "Александрия": 39,
+    "Северодонецк": 40,
+    "Кропивницкий": 41
+}
 
 
 with app.app_context():
@@ -44,8 +86,17 @@ def do_the_add_package():
     )
     db.session.add(new_package)
     db.session.commit()
+
     new_package.name_package = f"Посылка №{new_package.id}"
+
     db.session.commit()
+
+    city_code = CITY_CODES.get(dep_city, 0)  # если города нет в словаре — 0
+    new_package.name_package = f"Посылка №{new_package.id}-{city_code}"
+
+    db.session.commit()
+
+
     return "Succesuf"
 
 

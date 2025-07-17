@@ -6,20 +6,132 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+    }
+    form {
+      background: white;
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+    select, input[type="submit"] {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input[type="submit"]:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
+    
+
     <form method="POST">
         <h3>Добавить посылку</h3>
 <!--        <label for="name_package">Название Посылка</label><br>-->
 <!--        <input type = "text" id="name_package" name = "name_package"><br>-->
 
         <label for ="dep_city">Город Отправление</label><br>
-        <input type = "text" id="dep_city" name="dep_city"><br>
+        <select id="dep_city" name = "dep_city" required>
+            <option value="Днепр">Днепр</option>
+            <option value="Черкассы">Черскассы</option>
+            <option value="Одесса">Одесса</option>
+            <option value="Киев">Киев</option>
+            <option value="Харьков">Харьков</option>
+            <option value="Львов">Львов</option>
+            <option value="Запорожье">Запорожье</option>
+            <option value="Ивано-Франковск">Ивано-Франковск</option>
+            <option value="Полтава">Полтава</option>
+            <option value="Тернополь">Тернополь</option>
+            <option value="Ужгород">Ужгород</option>
+            <option value="Чернигов">Чернигов</option>
+            <option value="Черновцы">Черновцы</option>
+            <option value="Винница">Винница</option>
+            <option value="Херсон">Херсон</option>
+            <option value="Николаев">Николаев</option>
+            <option value="Сумы">Сумы</option>
+            <option value="Житомир">Житомир</option>
+            <option value="Кривой Рог">Кривой Рог</option>
+            <option value="Мариуполь">Мариуполь</option>
+            <option value="Луганск">Луганск</option>
+            <option value="Донецк">Донецк</option>
+            <option value="Краматорск">Краматорск</option>
+            <option value="Славянск">Славянск</option>
+            <option value="Хмельницкий">Хмельницкий</option>
+            <option value="Луцк">Луцк</option>
+            <option value="Ровно">Ровно</option>
+            <option value="Бровары">Бровары</option>
+            <option value="Белая Церковь">Белая Церковь</option>
+            <option value="Кременчуг">Кременчуг</option>
+            <option value="Мелитополь">Мелитополь</option>
+            <option value="Павлоград">Павлоград</option>
+            <option value="Бердянск">Бердянск</option>
+            <option value="Конотоп">Конотоп</option>
+            <option value="Умань">Умань</option>
+            <option value="Нежин">Нежин</option>
+            <option value="Мукачево">Мукачево</option>
+            <option value="Каменское">Каменское</option>
+            <option value="Александрия">Александрия</option>
+            <option value="Северодонецк">Северодонецк</option>
+            <option value="Кропивницкий">Кропивницкий</option>
+
+        </select><br>
 
         <label for="status">Статус</label><br>
-        <input type = "text" id="status" name="status"><br><br>
+        <select id="status" name="status" required>
+      <option value="Создана">Создана</option>
+<option value="Оформлена">Оформлена</option>
+<option value="Принята в отделении">Принята в отделении</option>
+<option value="В пути">В пути</option>
+<option value="Прибыла на сортировку">Прибыла на сортировку</option>
+<option value="Покинула сортировку">Покинула сортировку</option>
+<option value="Прибыла в город назначения">Прибыла в город назначения</option>
+<option value="Передана курьеру">Передана курьеру</option>
+<option value="Готова к выдаче">Готова к выдаче</option>
+<option value="Доставлена получателю">Доставлена получателю</option>
+<option value="Не доставлена">Не доставлена</option>
+<option value="Ожидает возврата">Ожидает возврата</option>
+<option value="Возвращена отправителю">Возвращена отправителю</option>
+<option value="Отменена">Отменена</option>
+
+        </select>
 
         <input type="submit" value="Добавить в базу данных">
-    </form>
+    </form><br>
 </body>
 </html>
