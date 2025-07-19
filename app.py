@@ -18,7 +18,9 @@ class Package(db.Model):
     __tablename__= 'package'
     id: Mapped[int] = mapped_column(db.Integer,primary_key= True)
     name_package : Mapped[str] = mapped_column(db.String(128),nullable=False)
+    content :Mapped[str] = mapped_column(db.String(128),nullable=False)
     departure_city: Mapped[str] = mapped_column(db.String(128),nullable=False)
+    arrival_city :Mapped[str] = mapped_column(db.String(128),nullable=False)
     status_package : Mapped[str] = mapped_column(db.String(128),nullable=False)
 CITY_CODES = {
     "Днепр": 1,
@@ -75,14 +77,19 @@ def show_add_package():
 
 def do_the_add_package():
     name_package = request.form.get('name_package')
+    content = request.form.get('content')
+    arrival_city= request.form.get('arrival_city')
     dep_city = request.form.get('dep_city')
     status = request.form.get('status')
-    all_info_package = name_package,dep_city,status
+    all_info_package = name_package,dep_city,status,content,arrival_city
 
     new_package =Package(
         name_package = "BR321",
+        content=request.form.get('content'),
+        arrival_city=request.form.get('arrival_city'),
         departure_city = request.form.get('dep_city'),
         status_package = request.form.get('status')
+
     )
     db.session.add(new_package)
     db.session.commit()
@@ -92,13 +99,13 @@ def do_the_add_package():
     db.session.commit()
 
     city_code = CITY_CODES.get(dep_city, 0)  # если города нет в словаре — 0
-    new_package.name_package = f"Посылка №{new_package.id}-{city_code}"
+    arrival_city_code= CITY_CODES.get(arrival_city,0)
+    new_package.name_package = f"Посылка №{new_package.id}-{city_code}-{arrival_city_code}"
 
     db.session.commit()
 
 
     return "Succesuf"
-
 
 
 @app.route("/add_package",methods=['POST','GET'])
@@ -150,7 +157,9 @@ def update_status(package_id):
 def show_update_package():
     return render_template("update_package.html")
 
-
+@app.route('/')
+def main():
+    return render_template("main.html")
 
 
 app.run(debug=True)
