@@ -105,7 +105,7 @@ def do_the_add_package():
     db.session.commit()
 
 
-    return "Succesuf"
+    return render_template("sucses.html")
 
 
 @app.route("/add_package",methods=['POST','GET'])

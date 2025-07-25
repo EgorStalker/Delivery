@@ -3,25 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Обновить статус посылки</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-      <script src="index.js"></script>
-    <h1>Обновление статуса посылки</h1>
+    <div class="container">
+        <h2>Обновление статуса посылки</h2>
+        <form onsubmit="event.preventDefault(); updateStatus();">
+            <label for="packageId">ID посылки:</label>
+            <input type="number" id="packageId" required>
 
-    <form onsubmit="event.preventDefault(); updateStatus();">
-        <label for="packageId">ID посылки:</label>
-        <input type="number" id="packageId" required><br><br>
+            <label for="newStatus">Новый статус:</label>
+            <select id="newStatus" required>
+                <option value="Создана">Создана</option>
+                <option value="Оформлена">Оформлена</option>
+                <option value="Принята в отделении">Принята в отделении</option>
+                <option value="В пути">В пути</option>
+                <option value="Прибыла на сортировку">Прибыла на сортировку</option>
+                <option value="Покинула сортировку">Покинула сортировку</option>
+                <option value="Прибыла в город назначения">Прибыла в город назначения</option>
+                <option value="Передана курьеру">Передана курьеру</option>
+                <option value="Готова к выдаче">Готова к выдаче</option>
+                <option value="Доставлена получателю">Доставлена получателю</option>
+                <option value="Не доставлена">Не доставлена</option>
+                <option value="Ожидает возврата">Ожидает возврата</option>
+                <option value="Возвращена отправителю">Возвращена отправителю</option>
+                <option value="Отменена">Отменена</option>
+            </select>
 
-        <label for="newStatus">Новый статус:</label>
-        <input type="text" id="newStatus" required><br><br>
+            <button type="submit">Обновить</button>
+        </form>
 
-        <button type="submit">Обновить</button>
-    </form>
-
-    <p id="result"></p>
+        <p id="result"></p>
+    </div>
 
     <script>
-        
+    async function updateStatus() {
+        const id = document.getElementById('packageId').value;
+        const status = document.getElementById('newStatus').value;
+
+        const response = await fetch(`/update_status`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ package_id: id, new_status: status })
+        });
+
+        const result = await response.json();
+        const message = document.getElementById('result');
+        if (response.ok) {
+            message.textContent = "Статус обновлён успешно!";
+            message.style.color = "green";
+        } else {
+            message.textContent = result.error || "Произошла ошибка.";
+            message.style.color = "red";
+        }
+    }
     </script>
 </body>
 </html>
