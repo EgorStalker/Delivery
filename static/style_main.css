@@ -1,41 +1,112 @@
+/* style_main.css — светлая тема с заголовком Hamaxi Post */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
     margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    flex-direction: column;
+    min-height: 100vh;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }
 
 .container {
+    max-width: 800px;
+    margin: 100px auto;
     text-align: center;
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    padding: 0 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.6s ease-out 0.3s forwards;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h1 {
-    margin-bottom: 30px;
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+    color: #0d47a1;
+    font-weight: 700;
+    letter-spacing: 1px;
 }
+
+
 
 .buttons {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .btn {
-    padding: 12px 24px;
-    background-color: #3498db;
-    color: white;
+    padding: 15px 30px;
+    background-color: #1565c0;
+    color: #fff;
     text-decoration: none;
-    border-radius: 8px;
+    font-weight: bold;
+    border-radius: 10px;
     transition: background-color 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .btn:hover {
-    background-color: #2980b9;
+    background-color: #0d47a1;
 }
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 20px;
+    color: #0d47a1;
+    background-color: #ffffff;
+    text-align: left;
+    animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+footer {
+    background-color: #ffffff;
+    color: #4a4a4a;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.95rem;
+    border-top: 1px solid #e0e0e0;
+    opacity: 0;
+    animation: fadeIn 0.6s ease-in-out 0.6s forwards;
+    margin-top: auto;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        text-align: center;
+    }
+}
+

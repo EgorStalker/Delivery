@@ -9,8 +9,12 @@
     <div class="container">
         <h2>Обновление статуса посылки</h2>
         <form onsubmit="event.preventDefault(); updateStatus();">
-            <label for="packageId">ID посылки:</label>
-            <input type="number" id="packageId" required>
+            <label for="packageId">Выберите посылку:</label>
+            <select id="packageId" required>
+                {% for package in packages %}
+                <option value="{{ package.id }}">{{ package.name_package }} (ID: {{ package.id }})</option>
+                {% endfor %}
+            </select>
 
             <label for="newStatus">Новый статус:</label>
             <select id="newStatus" required>
@@ -41,12 +45,12 @@
         const id = document.getElementById('packageId').value;
         const status = document.getElementById('newStatus').value;
 
-        const response = await fetch(`/update_status`, {
-            method: 'POST',
+        const response = await fetch(`/a/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ package_id: id, new_status: status })
+            body: JSON.stringify({ status_package: status })
         });
 
         const result = await response.json();
@@ -60,5 +64,6 @@
         }
     }
     </script>
+
 </body>
 </html>

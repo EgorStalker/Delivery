@@ -155,13 +155,15 @@ def update_status(package_id):
 
 @app.route("/update_package", methods=["GET"])
 def show_update_package():
-    return render_template("update_package.html")
+    packages = Package.query.all()
+    return render_template("update_package.html",packages=packages)
+
 
 @app.route('/')
 def main():
     return render_template("main.html")
 
 
-app.run(debug=True)
-# if __name__ == "main":
-#     app.run()
+
+if __name__ == "__main__":
+    app.run(debug=True)
