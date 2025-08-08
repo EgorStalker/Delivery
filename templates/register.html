@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Реєстрація | Hamaxi Post</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='register.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Hamaxi Post</h1>
+    </header>
+    <main>
+        <form method="POST">
+            <h2>Реєстрація</h2>
+            <input type="text" name="username" placeholder="Ім’я користувача" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Пароль" required>
+            <button type="submit">Зареєструватися</button>
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
+        </form>
+    </main>
+    <footer>
+        <p>Yehor Diriavka (EgorStalker). Усі права збережені</p>
+    </footer>
+</body>
+</html>
+

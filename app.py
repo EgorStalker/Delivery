@@ -7,12 +7,31 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import  Mapped,mapped_column
 from werkzeug.security import generate_password_hash,check_password_hash
 from sqlalchemy.orm import sessionmaker
+from flask import session, redirect, url_for, flash
 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/postgres'
 db = SQLAlchemy(app)
+app.secret_key = 'f53a8c34a0e84bfae4393ffaf7be4ad7cfc2c7fba4ec5d4fa17a43a6c12c71c4'  # або будь-який інший випадковий рядок
 
+
+
+class User(db.Model):
+    __tablename__ = 'users_poczta'
+    id: Mapped[int] = mapped_column(db.Integer, primary_key=True)
+    username: Mapped[str] = mapped_column(db.String(64), unique=True, nullable=False)
+    email: Mapped[str] = mapped_column(db.String(128), unique=True, nullable=False)
+    password_hash: Mapped[str] = mapped_column(db.String(128), nullable=False)
+    role: Mapped[str] = mapped_column(db.String(20), default='user')  # 'user' або 'admin'
+
+
+def set_password(self, password):
+    self.password_hash = generate_password_hash(password)
+
+
+def check_password(self, password):
+    return check_password_hash(self.password_hash, password)
 
 class Package(db.Model):
     __tablename__= 'package'
@@ -158,11 +177,67 @@ def show_update_package():
     packages = Package.query.all()
     return render_template("update_package.html",packages=packages)
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        username = request.form.get("username")
+        email = request.form.get("email")
+        password = request.form.get("password")
+
+        if User.query.filter_by(username=username).first():
+            return "Пользовател уже существует"
+
+        new_user = User(username=username, email=email)
+        new_user.set_password(password)
+        db.session.add(new_user)
+        db.session.commit()
+
+        return redirect(url_for("login"))
+
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            session["user_id"] = user.id
+            session["username"] = user.username
+            session["role"] = user.role
+
+            if user.role == "admin":
+                return redirect(url_for("package_manager"))
+            else:
+                return redirect(url_for("user_dashboard"))
+
+        return "Неверный логин или пароль"
+
+    return render_template("login.html")
+
+@app.route("/dashboard")
+def user_dashboard():
+    if session.get("role") != "user":
+        return redirect(url_for("login"))
+    return render_template("user_dashboard.html")
+
+
+@app.route('/package_manager')
+def package_manager():
+    if session.get("role") != "admin":
+        flash("Доступ заборонено")
+        return redirect(url_for("login"))
+    return render_template("main.html")
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/')
-def main():
-    return render_template("main.html")
-
+def home():
+    return render_template("home.html")
 
 
 if __name__ == "__main__":
